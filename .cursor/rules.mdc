@@ -1,0 +1,75 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+project:
+  name: Image Grid Analyzer
+  description: >
+    A Next.js + React web app that allows users to upload images (JPG, PNG, PDF, TIFF),
+    overlay a labeled grid (e.g., A1, B2) on top, compute brightness/histogram data per cell,
+    and interactively explore/export the results as PDFs or images.
+
+stack:
+  - framework: Next.js
+  - library: React
+  - styling: Tailwind CSS
+  - charting: Chart.js or Recharts (for histograms)
+  - export: jsPDF (PDF generation), html2canvas or dom-to-image (PNG/JPG export)
+  - image processing: pure JS (e.g., canvas API, optionally OpenCV.js for advanced features)
+
+features:
+  - File upload UI (JPG, PNG, PDF, TIFF support)
+  - Automatic grid overlay with labeled cells
+  - Per-cell brightness and histogram analysis
+  - Interactive grid cell click -> display metrics below
+  - Export options:
+      - Single cell as PDF or image
+      - Full grid as multipage PDF or ZIP of images
+  - Toggle between PDF/PNG export modes
+
+routing:
+  - / => main upload and grid interface
+
+components:
+  - ImageUploader
+  - GridOverlay (Canvas or absolute div grid)
+  - CellInspector
+  - HistogramChart
+  - ExportPanel
+  - FileExportUtils
+
+fileStructure:
+  - pages/
+    - index.tsx
+  - components/
+    - ImageUploader.tsx
+    - GridOverlay.tsx
+    - CellInspector.tsx
+    - HistogramChart.tsx
+    - ExportPanel.tsx
+  - lib/
+    - imageProcessor.ts
+    - gridUtils.ts
+    - exportUtils.ts
+  - styles/
+    - globals.css
+  - public/
+
+codingGuidelines:
+  - Use TypeScript
+  - Prefer functional components with hooks
+  - Maintain component purity where possible
+  - Reuse components across grid view and export
+  - Keep logic out of components; delegate to `lib/`
+  - Tailwind CSS for styling; avoid custom CSS where possible
+  - Ensure accessible labels and interactions (e.g., aria labels for buttons)
+  - Write concise comments above complex calculations (esp. brightness, histogram bins)
+
+testing:
+  - Unit test lib/ functions with Jest
+  - Component test critical UI (upload, grid, export panel) with Playwright or Cypress (optional for MVP)
+
+notes:
+  - For PDFs, use jsPDF with html2canvas to capture rendered DOM elements
+  - For image exports, dom-to-image may provide better fidelity than html2canvas
